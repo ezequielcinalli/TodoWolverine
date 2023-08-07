@@ -1,4 +1,4 @@
-﻿namespace TodoWolverine.Api.Features.Todos;
+﻿namespace TodoWolverine.Api.Models;
 
 public interface IDomainEvent
 {

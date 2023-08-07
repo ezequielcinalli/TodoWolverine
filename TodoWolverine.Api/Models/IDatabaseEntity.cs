@@ -1,4 +1,4 @@
-﻿namespace TodoWolverine.Api;
+﻿namespace TodoWolverine.Api.Models;
 
 public interface IDatabaseEntity
 {

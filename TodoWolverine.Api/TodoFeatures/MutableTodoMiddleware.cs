@@ -1,8 +1,9 @@
 ﻿using Marten;
 using Marten.Events;
+using TodoWolverine.Api.Models;
 using Wolverine;
 
-namespace TodoWolverine.Api.Features.Todos;
+namespace TodoWolverine.Api.TodoFeatures;
 
 public class MutableTodoMiddleware
 {

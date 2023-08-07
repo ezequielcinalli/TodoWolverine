@@ -1,4 +1,4 @@
-﻿namespace TodoWolverine.Api.Features.Todos;
+﻿namespace TodoWolverine.Api.TodoFeatures;
 
 public interface IMutableTodo
 {

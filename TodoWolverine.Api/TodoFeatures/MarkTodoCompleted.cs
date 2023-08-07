@@ -1,9 +1,9 @@
-﻿using Marten;
-using OneOf;
+﻿using OneOf;
 using OneOf.Types;
+using TodoWolverine.Api.Models;
 using Wolverine.Attributes;
 
-namespace TodoWolverine.Api.Features.Todos;
+namespace TodoWolverine.Api.TodoFeatures;
 
 public record MarkTodoCompleted(Guid Id) : IMutableTodo;
 
@@ -16,15 +16,14 @@ public record TodoCompleted(Guid Id) : IDomainEvent;
 
 public static class MarkTodoCompletedHandler
 {
+    public const string TodoAlreadyCompleted = "Todo already completed";
+
     [Transactional]
-    public static MarkTodoCompletedResponse Handle(MarkTodoCompleted command, Todo todo,
-        List<IDomainEvent> events, IDocumentSession documentSession)
+    public static MarkTodoCompletedResponse Handle(MarkTodoCompleted command, Todo todo, List<IDomainEvent> events)
     {
-        //TODO: Return response validation error
-        // if (todo.IsCompleted) throw new Exception("Todo is already completed");
+        if (todo.IsCompleted) return new ResponseValidationError(TodoAlreadyCompleted);
         var @event = new TodoCompleted(command.Id);
         events.Add(@event);
-
         return new Success();
     }
 }

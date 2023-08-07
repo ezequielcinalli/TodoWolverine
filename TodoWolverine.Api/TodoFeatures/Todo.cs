@@ -1,4 +1,6 @@
-﻿namespace TodoWolverine.Api.Features.Todos;
+﻿using TodoWolverine.Api.Models;
+
+namespace TodoWolverine.Api.TodoFeatures;
 
 public record Todo : IDatabaseEntity
 {

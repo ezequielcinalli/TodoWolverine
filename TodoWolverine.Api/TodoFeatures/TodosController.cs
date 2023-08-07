@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Wolverine;
 
-namespace TodoWolverine.Api.Features.Todos;
+namespace TodoWolverine.Api.TodoFeatures;
 
 [ApiController]
 [Route("[controller]")]
@@ -16,18 +16,24 @@ public class TodosController
     }
 
     [HttpPost("Add")]
-    [ProducesResponseType(200, Type = typeof(TodoCreated))]
+    [ProducesResponseType(200, Type = typeof(Todo))]
     public async Task<IActionResult> AddTodo([FromBody] AddTodo request, IMessageBus messageBus)
     {
-        var todo = await messageBus.InvokeAsync<TodoCreated>(request);
-        return new OkObjectResult(todo);
+        var response = await messageBus.InvokeAsync<AddTodoResponse>(request);
+        return response.Match<IActionResult>(
+            validationError => new BadRequestObjectResult(validationError),
+            todo => new OkObjectResult(todo)
+        );
     }
 
     [HttpPost("MarkCompleted")]
-    [ProducesResponseType(200, Type = typeof(TodoCompleted))]
+    [ProducesResponseType(200)]
     public async Task<IActionResult> MarkTodoCompleted([FromBody] MarkTodoCompleted request, IMessageBus messageBus)
     {
-        var todo = await messageBus.InvokeAsync<TodoCompleted>(request);
-        return new OkObjectResult(todo);
+        var response = await messageBus.InvokeAsync<MarkTodoCompletedResponse>(request);
+        return response.Match<IActionResult>(
+            validationError => new BadRequestObjectResult(validationError),
+            success => new OkResult()
+        );
     }
 }

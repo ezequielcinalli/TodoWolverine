@@ -1,6 +1,6 @@
 using TodoWolverine.Api;
 using TodoWolverine.Api.Extensions;
-using TodoWolverine.Api.Features.Todos;
+using TodoWolverine.Api.TodoFeatures;
 using Wolverine;
 using Wolverine.FluentValidation;
 using Wolverine.Http;

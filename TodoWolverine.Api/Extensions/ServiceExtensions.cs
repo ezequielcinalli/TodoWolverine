@@ -1,7 +1,8 @@
 ﻿using Marten;
 using Marten.Events.Projections;
 using Microsoft.AspNetCore.Mvc;
-using TodoWolverine.Api.Features.Todos;
+using TodoWolverine.Api.Models;
+using TodoWolverine.Api.TodoFeatures;
 using Wolverine.Marten;
 
 namespace TodoWolverine.Api.Extensions;
