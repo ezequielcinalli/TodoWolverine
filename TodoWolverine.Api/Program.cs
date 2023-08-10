@@ -1,5 +1,6 @@
 using TodoWolverine.Api;
 using TodoWolverine.Api.Extensions;
+using TodoWolverine.Api.Models;
 using TodoWolverine.Api.TodoFeatures;
 using Wolverine;
 using Wolverine.FluentValidation;
@@ -10,6 +11,7 @@ builder.Services.AddLocalServices(builder.Configuration);
 builder.Host.UseWolverine(opts =>
 {
     opts.UseFluentValidation();
+    opts.Policies.ForMessagesOfType<NewEventStream>().AddMiddleware(typeof(NewEventStreamMiddleware));
     opts.Policies.ForMessagesOfType<IMutableTodo>().AddMiddleware(typeof(MutableTodoMiddleware));
 });
 

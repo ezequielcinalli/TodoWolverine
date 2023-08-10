@@ -2,11 +2,10 @@
 using Marten;
 using OneOf;
 using TodoWolverine.Api.Models;
-using Wolverine.Attributes;
 
 namespace TodoWolverine.Api.TodoFeatures;
 
-public record AddTodo(string Description);
+public record AddTodo(string Description) : NewEventStream;
 
 public class AddTodoValidator : AbstractValidator<AddTodo>
 {
@@ -26,14 +25,14 @@ public partial class AddTodoResponse : OneOfBase<ResponseValidationError, Todo>
 {
 }
 
-public record TodoCreated(Guid Id, string Description);
+public record TodoCreated(Guid Id, string Description) : IDomainEvent;
 
 public static class AddTodoHandler
 {
     public static readonly string TodoWithSameDescription = "Todo with same description already exists";
 
-    [Transactional]
-    public static async Task<AddTodoResponse> HandleAsync(AddTodo command, IDocumentSession documentSession)
+    public static async Task<AddTodoResponse> HandleAsync(AddTodo command, List<IDomainEvent> events,
+        IDocumentSession documentSession)
     {
         var todoWithSameDescription = await documentSession.Query<Todo>()
             .FirstOrDefaultAsync(x => x.Description == command.Description);
@@ -45,7 +44,7 @@ public static class AddTodoHandler
             Description = command.Description,
             IsCompleted = false
         };
-        documentSession.Events.Append(todo.Id, new TodoCreated(todo.Id, todo.Description));
+        events.Add(new TodoCreated(todo.Id, todo.Description));
         return todo;
     }
 }
