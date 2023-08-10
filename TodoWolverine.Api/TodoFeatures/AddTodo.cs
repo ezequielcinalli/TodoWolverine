@@ -1,6 +1,6 @@
-﻿using FluentValidation;
+﻿using FluentResults;
+using FluentValidation;
 using Marten;
-using OneOf;
 using TodoWolverine.Api.Models;
 
 namespace TodoWolverine.Api.TodoFeatures;
@@ -20,23 +20,18 @@ public class AddTodoValidator : AbstractValidator<AddTodo>
     }
 }
 
-[GenerateOneOf]
-public partial class AddTodoResponse : OneOfBase<ResponseValidationError, Todo>
-{
-}
-
 public record TodoCreated(Guid Id, string Description) : IDomainEvent;
 
 public static class AddTodoHandler
 {
     public static readonly string TodoWithSameDescription = "Todo with same description already exists";
 
-    public static async Task<AddTodoResponse> HandleAsync(AddTodo command, List<IDomainEvent> events,
+    public static async Task<Result<Todo>> HandleAsync(AddTodo command, List<IDomainEvent> events,
         IDocumentSession documentSession)
     {
         var todoWithSameDescription = await documentSession.Query<Todo>()
             .FirstOrDefaultAsync(x => x.Description == command.Description);
-        if (todoWithSameDescription is not null) return new ResponseValidationError(TodoWithSameDescription);
+        if (todoWithSameDescription is not null) return Result.Fail(TodoWithSameDescription);
 
         var todo = new Todo
         {
