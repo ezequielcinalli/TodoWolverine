@@ -1,7 +1,7 @@
 using FluentValidation;
 using TodoWolverine.Api.Models;
 
-namespace TodoWolverine.Api;
+namespace TodoWolverine.Api.Middlewares;
 
 public class ExceptionMiddleware
 {

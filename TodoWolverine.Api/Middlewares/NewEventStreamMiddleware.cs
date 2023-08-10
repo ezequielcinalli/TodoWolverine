@@ -2,7 +2,7 @@
 using TodoWolverine.Api.Models;
 using Wolverine;
 
-namespace TodoWolverine.Api;
+namespace TodoWolverine.Api.Middlewares;
 
 public class NewEventStreamMiddleware
 {
