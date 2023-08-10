@@ -6,10 +6,12 @@ namespace TodoWolverine.Api;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;
+    private readonly ILogger<ExceptionMiddleware> _logger;
 
-    public ExceptionMiddleware(RequestDelegate next)
+    public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
     {
         _next = next;
+        _logger = logger;
     }
 
     public async Task InvokeAsync(HttpContext httpContext)
@@ -26,6 +28,7 @@ public class ExceptionMiddleware
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Exception catch in ExceptionMiddleware");
             httpContext.Response.StatusCode = 500;
             httpContext.Response.Headers.TryAdd("Exception", "yes");
             var error = new ResponseExceptionError();

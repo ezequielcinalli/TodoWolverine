@@ -4,7 +4,6 @@ using TodoWolverine.Api.Models;
 using TodoWolverine.Api.TodoFeatures;
 using Wolverine;
 using Wolverine.FluentValidation;
-using Wolverine.Http;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLocalServices(builder.Configuration);
@@ -22,5 +21,4 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
-app.MapWolverineEndpoints();
 app.Run();
