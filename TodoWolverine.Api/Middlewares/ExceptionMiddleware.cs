@@ -26,6 +26,12 @@ public class ExceptionMiddleware
             var error = new ResponseValidationError(ex.Errors.Select(x => x.ErrorMessage).ToList());
             await httpContext.Response.WriteAsJsonAsync(error);
         }
+        catch (DomainException ex)
+        {
+            httpContext.Response.StatusCode = 400;
+            var error = new ResponseValidationError(ex.Message);
+            await httpContext.Response.WriteAsJsonAsync(error);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Exception catch in ExceptionMiddleware");

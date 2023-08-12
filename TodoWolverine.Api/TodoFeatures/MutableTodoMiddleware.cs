@@ -21,12 +21,7 @@ public class MutableTodoMiddleware
         CancellationToken cancellationToken)
     {
         _eventStream = await _documentSession.Events.FetchForWriting<Todo>(command.Id, cancellationToken);
-        if (_eventStream.Aggregate == null)
-        {
-            _logger.LogInformation("Todo with id={Id} not found in event stream", command.Id);
-            //TODO: Return response validation error to client
-            return (HandlerContinuation.Stop, null, null)!;
-        }
+        if (_eventStream.Aggregate == null) throw new DomainException($"Todo with id={command.Id} not found");
 
         return (HandlerContinuation.Continue, _eventStream.Aggregate, new List<IDomainEvent>());
     }

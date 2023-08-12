@@ -22,7 +22,9 @@ public class NewEventStreamMiddleware
     public async Task AfterAsync(NewEventStream command, List<IDomainEvent> events, CancellationToken cancellationToken)
     {
         if (!events.IsEmpty())
+        {
             events.ForEach(e => { _documentSession.Events.Append(e.Id, e); });
-        await _documentSession.SaveChangesAsync(cancellationToken);
+            await _documentSession.SaveChangesAsync(cancellationToken);
+        }
     }
 }

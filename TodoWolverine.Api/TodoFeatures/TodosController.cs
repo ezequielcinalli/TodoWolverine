@@ -6,10 +6,13 @@ using Wolverine;
 namespace TodoWolverine.Api.TodoFeatures;
 
 [ApiController]
-[Route("[controller]")]
 public class TodosController
 {
-    [HttpGet]
+    public const string GetAllUrl = "/todos";
+    public const string AddUrl = "/todos/add";
+    public const string MarkCompletedUrl = "/todos/markcompleted";
+
+    [HttpGet(GetAllUrl)]
     [ProducesResponseType(200, Type = typeof(List<Todo>))]
     public async Task<IActionResult> GetTodos(IMessageBus messageBus)
     {
@@ -17,7 +20,7 @@ public class TodosController
         return response.ToHttpResponse();
     }
 
-    [HttpPost("Add")]
+    [HttpPost(AddUrl)]
     [ProducesResponseType(200, Type = typeof(Todo))]
     public async Task<IActionResult> AddTodo([FromBody] AddTodo request, IMessageBus messageBus)
     {
@@ -25,7 +28,7 @@ public class TodosController
         return response.ToHttpResponse();
     }
 
-    [HttpPost("MarkCompleted")]
+    [HttpPost(MarkCompletedUrl)]
     [ProducesResponseType(200)]
     public async Task<IActionResult> MarkTodoCompleted([FromBody] MarkTodoCompleted request, IMessageBus messageBus)
     {

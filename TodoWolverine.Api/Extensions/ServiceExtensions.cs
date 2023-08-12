@@ -1,9 +1,5 @@
-﻿using Marten;
-using Marten.Events.Projections;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TodoWolverine.Api.Models;
-using TodoWolverine.Api.TodoFeatures;
-using Wolverine.Marten;
 
 namespace TodoWolverine.Api.Extensions;
 
@@ -20,16 +16,10 @@ public static class ServiceExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
 
-        services.AddMarten(opts =>
-        {
-            var connectionString = configuration.GetConnectionString("Marten") ??
-                                   throw new Exception("No connection string found for Marten");
-            opts.Connection(connectionString);
-            opts.DatabaseSchemaName = "todolist";
-
-            opts.Projections.Add<TodoProjection>(ProjectionLifecycle.Inline);
-
-            opts.Schema.For<Todo>().UniqueIndex(x => x.Description);
-        }).UseLightweightSessions().IntegrateWithWolverine();
+        var martenConnection = configuration.GetConnectionString("MartenConnection") ??
+                               throw new Exception("No connection string found for MartenConnection");
+        var schema = configuration.GetConnectionString("MartenSchema") ??
+                     throw new Exception("No connection string found for MartenSchema");
+        services.AddLocalMarten(martenConnection, schema);
     }
 }
