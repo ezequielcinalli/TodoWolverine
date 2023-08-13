@@ -4,8 +4,10 @@ A simple PoC of the [Wolverine](https://wolverine.netlify.app/) library building
 
 Uses [Marten](https://martendb.io/) as the data store with event sourcing paradigm.
 
-The idea is use a CQRS approach but instead of the classic approach with mediator pattern libraries as MediatR o
-Mediator.SourceGenerator.
+The idea is use a CQRS approach but instead of the classic approach with mediator pattern libraries as MediatR or
+Mediator.SourceGenerator using wolverine.
+
+For integration testing use [Alba](https://jasperfx.github.io/alba/) which have great integration with marten and wolverine.
 
 # Setup
 
