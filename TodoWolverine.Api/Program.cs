@@ -10,8 +10,8 @@ builder.Services.AddLocalServices(builder.Configuration);
 builder.Host.UseWolverine(opts =>
 {
     opts.UseFluentValidation();
-    opts.Policies.ForMessagesOfType<NewEventStream>().AddMiddleware(typeof(NewEventStreamMiddleware));
-    opts.Policies.ForMessagesOfType<IMutableTodo>().AddMiddleware(typeof(MutableTodoMiddleware));
+    opts.Policies.ForMessagesOfType<INewEventStream>().AddMiddleware(typeof(NewEventStreamMiddleware));
+    opts.Policies.ForMessagesOfType<IMutableTodo>().AddMiddleware(typeof(MutableMiddleware<Todo>));
 });
 
 var app = builder.Build();

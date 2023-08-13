@@ -13,13 +13,14 @@ public class NewEventStreamMiddleware
         _documentSession = documentSession;
     }
 
-    public (HandlerContinuation, List<IDomainEvent> events) Before(NewEventStream command,
+    public (HandlerContinuation, List<IDomainEvent> events) Before(INewEventStream command,
         CancellationToken cancellationToken)
     {
         return (HandlerContinuation.Continue, new List<IDomainEvent>());
     }
 
-    public async Task AfterAsync(NewEventStream command, List<IDomainEvent> events, CancellationToken cancellationToken)
+    public async Task AfterAsync(INewEventStream command, List<IDomainEvent> events,
+        CancellationToken cancellationToken)
     {
         if (!events.IsEmpty())
         {

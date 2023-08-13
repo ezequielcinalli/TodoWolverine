@@ -1,6 +1,5 @@
 ﻿namespace TodoWolverine.Api.Models;
 
-public interface IDomainEvent
+public interface IDomainEvent : IGuid
 {
-    public Guid Id { get; init; }
 }

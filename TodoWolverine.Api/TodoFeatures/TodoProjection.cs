@@ -6,7 +6,6 @@ public class TodoProjection : SingleStreamProjection<Todo>
 {
     public void Apply(TodoCreated @event, Todo document)
     {
-        document.Id = @event.Id;
         document.Description = @event.Description;
         document.IsCompleted = false;
     }

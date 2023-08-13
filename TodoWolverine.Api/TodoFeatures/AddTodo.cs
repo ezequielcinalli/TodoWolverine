@@ -5,7 +5,7 @@ using TodoWolverine.Api.Models;
 
 namespace TodoWolverine.Api.TodoFeatures;
 
-public record AddTodo(string Description) : NewEventStream;
+public record AddTodo(string Description) : INewEventStream;
 
 public class AddTodoValidator : AbstractValidator<AddTodo>
 {
