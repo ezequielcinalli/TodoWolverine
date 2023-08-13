@@ -17,4 +17,9 @@ public static class HttpResponseExtensions
         return new BadRequestObjectResult(
             new ResponseValidationError(result.Errors.Select(x => x.Message).ToList()));
     }
+
+    public static IActionResult ToHttpResponse<T>(this T result)
+    {
+        return new OkObjectResult(result);
+    }
 }

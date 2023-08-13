@@ -9,7 +9,6 @@ public static class ServiceExtensions
     {
         services.AddControllers(options =>
         {
-            options.Filters.Add(new ProducesAttribute("application/json"));
             options.Filters.Add(new ProducesResponseTypeAttribute(typeof(ResponseValidationError), 400));
             options.Filters.Add(new ProducesResponseTypeAttribute(typeof(ResponseExceptionError), 500));
         });

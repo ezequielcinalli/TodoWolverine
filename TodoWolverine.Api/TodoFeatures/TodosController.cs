@@ -1,4 +1,5 @@
 ﻿using FluentResults;
+using Marten;
 using Microsoft.AspNetCore.Mvc;
 using TodoWolverine.Api.Extensions;
 using Wolverine;
@@ -12,27 +13,29 @@ public class TodosController
     public const string AddUrl = "/todos/add";
     public const string MarkCompletedUrl = "/todos/markcompleted";
 
-    [HttpGet(GetAllUrl)]
-    [ProducesResponseType(200, Type = typeof(List<Todo>))]
-    public async Task<IActionResult> GetTodos(IMessageBus messageBus)
+    [HttpGet(GetAllUrl, Name = nameof(GetTodos))]
+    [ProducesResponseType(200, Type = typeof(IReadOnlyList<Todo>))]
+    public async Task<IActionResult> GetTodos(IQuerySession querySession, CancellationToken cancellationToken)
     {
-        var response = await messageBus.InvokeAsync<Result<List<Todo>>>(new GetTodos());
+        var response = await querySession.Query<Todo>().ToJsonArray(cancellationToken);
         return response.ToHttpResponse();
     }
 
-    [HttpPost(AddUrl)]
+    [HttpPost(AddUrl, Name = nameof(AddTodo))]
     [ProducesResponseType(200, Type = typeof(Todo))]
-    public async Task<IActionResult> AddTodo([FromBody] AddTodo request, IMessageBus messageBus)
+    public async Task<IActionResult> AddTodo([FromBody] AddTodo request, IMessageBus messageBus,
+        CancellationToken cancellationToken)
     {
-        var response = await messageBus.InvokeAsync<Result<Todo>>(request);
+        var response = await messageBus.InvokeAsync<Result<Todo>>(request, cancellationToken);
         return response.ToHttpResponse();
     }
 
-    [HttpPost(MarkCompletedUrl)]
+    [HttpPost(MarkCompletedUrl, Name = nameof(MarkTodoCompleted))]
     [ProducesResponseType(200)]
-    public async Task<IActionResult> MarkTodoCompleted([FromBody] MarkTodoCompleted request, IMessageBus messageBus)
+    public async Task<IActionResult> MarkTodoCompleted([FromBody] MarkTodoCompleted request, IMessageBus messageBus,
+        CancellationToken cancellationToken)
     {
-        var response = await messageBus.InvokeAsync<Result<Success>>(request);
+        var response = await messageBus.InvokeAsync<Result<Success>>(request, cancellationToken);
         return response.ToHttpResponse();
     }
 }

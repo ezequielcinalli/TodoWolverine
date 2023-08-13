@@ -1,6 +1,7 @@
 ﻿using Marten;
 using Marten.Events.Projections;
 using TodoWolverine.Api.TodoFeatures;
+using Weasel.Core;
 using Wolverine.Marten;
 
 namespace TodoWolverine.Api.Extensions;
@@ -14,6 +15,7 @@ public static class MartenExtensions
             opts.Connection(connectionString);
             opts.DatabaseSchemaName = schema;
 
+            opts.UseDefaultSerialization(EnumStorage.AsString);
             opts.Projections.Add<TodoProjection>(ProjectionLifecycle.Inline);
 
             opts.Schema.For<Todo>().UniqueIndex(x => x.Description);
