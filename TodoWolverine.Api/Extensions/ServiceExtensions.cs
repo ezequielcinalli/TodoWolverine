@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoWolverine.Api.Models;
 
 namespace TodoWolverine.Api.Extensions;
 

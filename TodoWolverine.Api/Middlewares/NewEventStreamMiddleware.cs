@@ -1,6 +1,4 @@
-﻿using Marten;
-using TodoWolverine.Api.Models;
-using Wolverine;
+﻿using Wolverine;
 
 namespace TodoWolverine.Api.Middlewares;
 

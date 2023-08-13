@@ -1,6 +1,4 @@
-﻿using TodoWolverine.Api.Models;
-
-namespace TodoWolverine.Api.TodoFeatures;
+﻿namespace TodoWolverine.Api.TodoFeatures;
 
 public record Todo : IGuid
 {

@@ -1,6 +1,4 @@
-﻿using Marten;
-using Marten.Events;
-using TodoWolverine.Api.Models;
+﻿using Marten.Events;
 using Wolverine;
 
 namespace TodoWolverine.Api.Middlewares;
@@ -15,7 +13,7 @@ public class MutableMiddleware<T> where T : class
         _documentSession = documentSession;
     }
 
-    public async Task<(HandlerContinuation, T, List<IDomainEvent> events)> BeforeAsync(IGuid command,
+    public async Task<(HandlerContinuation, T, List<IDomainEvent> events)> BeforeAsync(IMutable<T> command,
         CancellationToken cancellationToken)
     {
         _eventStream = await _documentSession.Events.FetchForWriting<T>(command.Id, cancellationToken);
@@ -25,7 +23,7 @@ public class MutableMiddleware<T> where T : class
         return (HandlerContinuation.Continue, _eventStream.Aggregate, new List<IDomainEvent>());
     }
 
-    public async Task AfterAsync(IGuid command, List<IDomainEvent> events, CancellationToken cancellationToken)
+    public async Task AfterAsync(IMutable<T> command, List<IDomainEvent> events, CancellationToken cancellationToken)
     {
         if (!events.IsEmpty())
         {

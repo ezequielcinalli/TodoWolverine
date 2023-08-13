@@ -1,9 +1,4 @@
-﻿using FluentResults;
-using FluentValidation;
-using Marten;
-using TodoWolverine.Api.Models;
-
-namespace TodoWolverine.Api.TodoFeatures;
+﻿namespace TodoWolverine.Api.TodoFeatures;
 
 public record AddTodo(string Description) : INewEventStream;
 

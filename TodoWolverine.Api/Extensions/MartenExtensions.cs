@@ -1,5 +1,4 @@
-﻿using Marten;
-using Marten.Events.Projections;
+﻿using Marten.Events.Projections;
 using TodoWolverine.Api.TodoFeatures;
 using Weasel.Core;
 using Wolverine.Marten;

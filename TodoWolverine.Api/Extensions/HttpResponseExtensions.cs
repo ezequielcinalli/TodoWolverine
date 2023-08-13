@@ -1,6 +1,4 @@
-﻿using FluentResults;
-using Microsoft.AspNetCore.Mvc;
-using TodoWolverine.Api.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace TodoWolverine.Api.Extensions;
 
